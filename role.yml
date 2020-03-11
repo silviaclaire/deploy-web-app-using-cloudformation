@@ -1,0 +1,42 @@
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+Resources:
+  UdagramRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "UdagramRole"
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  UdagramS3ReadOnlyEC2Policy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "AmazonS3ReadOnlyAccess"
+      PolicyDocument:
+        Statement:
+          - Effect: "Allow"
+            Action: ["s3:Get*", "s3:List*"]
+            Resource: "*"
+      Roles:
+        - Ref: "UdagramRole"
+
+  UdagramInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: "UdagramRole"
+
+Outputs:
+  UdagramRole:
+    Value: !Ref UdagramInstanceProfile
+    Export:
+      Name: !Sub ${EnvironmentName}-ROLE
