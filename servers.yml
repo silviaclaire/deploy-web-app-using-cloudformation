@@ -53,7 +53,7 @@ Resources:
           systemctl start apache2.service
           cd /var/www/html
           echo "Udacity Demo Web Server Up and Running!" > index.html
-      ImageId: ami-005bdb005fb00e791
+      ImageId: ami-0d1cd67c26f5fca19
       SecurityGroups:
         - Ref: WebServerSecGroup
       InstanceType: t3.medium
