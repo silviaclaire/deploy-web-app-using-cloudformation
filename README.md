@@ -52,8 +52,18 @@ This script will create 4 servers (Ubuntu 18, t3.medium), two located in each pr
 All servers will be in the same auto-scaling group.
 
 
+#### 4. Output the URL
+
+```
+aws cloudformation describe-stacks \
+    --region [region] \
+    --stack-name udagram-server \
+    --query "Stacks[0].Outputs[?OutputKey=='WebAppURL'].OutputValue" \
+    --output text
+```
+
 ### Deploy Automatically
 
 `$ sh create_all.sh [region]`
 
-Create all stacks needed to run the app.
+Create all stacks needed to run the app and show the URL to access.
